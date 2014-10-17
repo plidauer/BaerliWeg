@@ -74,7 +74,6 @@ public class Helper {
                     JSONObject json = new JSONObject();
                     json.put("registration_ids", regids);
                     json.put("delay_while_idle", false);
-                    json.put("collapse_key", "1");
 
                     json.put("data", body);
 
@@ -110,7 +109,7 @@ public class Helper {
                             Log.w(TAG, conn.getResponseMessage() + " " + status);
                         }
                     } else {
-                        Log.i(TAG, "Message sent successfully.");
+                        Log.i(TAG, "Message sent successfully. " + conn.getResponseMessage() + " " + status);
                     }
 
                 } catch (MalformedURLException e) {

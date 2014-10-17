@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -51,13 +52,21 @@ public class MyActivity extends Activity implements
     private static final String SENDER_ID = "725840921883";
 
 
-    Button button = null;
+    Button button = null, again = null;
     ProgressBar progressBar = null;
+    View question = null, answer = null;
+    TextView distance = null, message = null;
     Context context;
     AtomicInteger msgId = new AtomicInteger();
     GoogleCloudMessaging gcm;
     SharedPreferences prefs;
     LocationClient locationClient;
+
+    final int STATE_INIT = 0;
+    final int STATE_WAIT = 1;
+    final int STATE_ANSWER = 2;
+
+    int state = STATE_INIT;
 
     protected static String regid;
     protected static String regidPhilipp = "APA91bHUV5wWKAedXWEdyHb4pgvdfADJ-ERHocdGUA3IrQWyGihV-uU1huriuYHFtPd5lQGSyUOWD6SnwxCNRqzQTy4lMsM7hwpj8WY537QQdJxUvmTfGyi9uaq61MPcnY2lTbSfbROdNJZRQunF1iHPF31UOBe15w";
@@ -70,10 +79,23 @@ public class MyActivity extends Activity implements
         setContentView(R.layout.activity_my);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        question = findViewById(R.id.question);
+        answer = findViewById(R.id.answer);
+        distance = (TextView) findViewById(R.id.distance);
+        message = (TextView) findViewById(R.id.message);
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setState(STATE_WAIT);
+                sendNotification();
+            }
+        });
+        again = (Button) findViewById(R.id.again);
+        again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setState(STATE_WAIT);
                 sendNotification();
             }
         });
@@ -177,11 +199,14 @@ public class MyActivity extends Activity implements
             data.put("my_loc_ber", currentLocation.getBearing());
             data.put("my_step", 1);
 
-            Helper.transmit(data, new JSONArray().put((regid.equals(regidPhilipp) ? regidEsther : regidPhilipp)));
+            //Helper.transmit(data, new JSONArray().put((regid.equals(regidPhilipp) ? regidEsther : regidPhilipp)));
+            Helper.transmit(data, new JSONArray().put(regid));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (Helper.BaerliTransmitException e) {
-            cancelBaerliWeg("Etwas ist schiefgegangen :'( ist das inet eingeschaltet?");
+            distance.setText("");
+            message.setText("Etwas ist schiefgegangen :(\n" + e.toString());
+            setState(STATE_ANSWER);
         }
     }
 
@@ -279,6 +304,25 @@ public class MyActivity extends Activity implements
     }
 
     public static final int HIDE = 0, SHOW = 1;
+
+    public void setState(int state) {
+        if (state == STATE_INIT) {
+            question.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
+            answer.setVisibility(View.INVISIBLE);
+        } else if (state == STATE_WAIT) {
+            question.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            answer.setVisibility(View.INVISIBLE);
+        } else if (state == STATE_ANSWER) {
+            question.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
+            answer.setVisibility(View.VISIBLE);
+        }
+
+        this.state = state;
+    }
+
     public class MessageHandler extends Handler {
         @Override
         public void handleMessage(Message message) {

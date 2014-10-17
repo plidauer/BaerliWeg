@@ -1,4 +1,4 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -20,48 +20,91 @@
 
         tools:context=".MyActivity">
 
+
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
         <LinearLayout
-            android:paddingTop="130dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:id="@+id/question"
+            android:orientation="vertical"
+            android:layout_margin="15dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
             <TextView
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:textSize="25dp"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hello_esther"/>
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_margin="15dp"
+            <Button
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="@string/where_is_baerli"
+                android:id="@+id/button" />
 
-                <Button
+        </LinearLayout>
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/where_is_baerli"
-                    android:id="@+id/button" />
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/progressBar"
+            android:visibility="invisible"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-                </LinearLayout>
+        <LinearLayout
+            android:visibility="invisible"
+            android:id="@+id/answer"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:visibility="invisible"
-                style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            <TextView
+                android:id="@+id/distance"
+                android:textColor="#555"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:textSize="60dp"
+                android:layout_gravity="center"
+                android:text="10 km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/message"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Das ist ziemlich weit...\nschreib ihm, dass es dir gut geht :'("
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/again"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:text="@string/nochmal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
+
         android:layout_width="fill_parent"
-        android:layout_height="150dp">
+        android:layout_height="fill_parent">
 
         <ImageView
             android:layout_alignParentBottom="true"
@@ -91,4 +134,4 @@
         </RelativeLayout>
 
 
-</LinearLayout>
+</FrameLayout>

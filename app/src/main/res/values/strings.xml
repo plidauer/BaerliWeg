@@ -17,5 +17,6 @@
     <string name="unregister_device">unregister_device</string>
     <string name="server_unregistered">server_unregistered</string>
     <string name="server_unregister_error">server_unregister_error</string>
+    <string name="nochmal">und jetzt?</string>
 
 </resources>

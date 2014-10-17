@@ -125,7 +125,8 @@ public class GCMIntentService extends IntentService implements
             data.put("your_loc_ber", currentLocation.getBearing());
             data.put("my_step", 2);
 
-            Helper.transmit(data, new JSONArray().put((MyActivity.regid.equals(MyActivity.regidPhilipp) ? MyActivity.regidEsther : MyActivity.regidPhilipp)));
+            //Helper.transmit(data, new JSONArray().put((MyActivity.regid.equals(MyActivity.regidPhilipp) ? MyActivity.regidEsther : MyActivity.regidPhilipp)));
+            Helper.transmit(data, new JSONArray().put(MyActivity.regid));
         } catch (JSONException e) {
             e.printStackTrace();
         }
