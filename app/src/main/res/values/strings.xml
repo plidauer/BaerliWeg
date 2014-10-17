@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bärli Weg</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_esther">Esther :)</string>
+    <string name="where_is_baerli">Wie weit ist dein Bärli weg?</string>
+    <string name="got_last_location">got_last_location</string>
+    <string name="server_registering">server_registering</string>
+    <string name="server_registered">server_registered</string>
+    <string name="request_error">request_error</string>
+    <string name="airbop_server_reg_failed">airbop_server_reg_failed</string>
+    <string name="airbop_server_reg_failed_timeout">airbop_server_reg_failed_timeout</string>
+    <string name="airbop_server_reg_failed_401">airbop_server_reg_failed_401</string>
+    <string name="server_register_error">server_register_error</string>
+    <string name="unregister_device">unregister_device</string>
+    <string name="server_unregistered">server_unregistered</string>
+    <string name="server_unregister_error">server_unregister_error</string>
+
+</resources>
