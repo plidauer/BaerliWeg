@@ -75,7 +75,7 @@ public class MyActivity extends Activity implements
     int state = STATE_INIT;
 
     protected static String regid;
-    protected static String regidPhilipp = "APA91bFlmb2KmXZW9XfU1b2vEu6vUxWcuxfWCZeJtt0aygfZJ_75s7cC3nXcUddd65ROpDT73MmcV_l14siFC-dFmN4c9vwdRZWnB05r5rSFI0ZWhu9j_O2846Zt0A40IqizOrzywTTkocElj0V86QyNdhMolAZhDQ";
+    protected static String regidPhilipp = "APA91bFnOkN_kVeTQmQF8fD6SmCENR_1Afqfge4cFzjFbzy32Mk8sTqK045bbrrdNWdY-0psnsFzeBWqqzOmqCd0ZVnP3GWiRm8kzY92N70wXpTc0VMk3v94WlbhtvZ07FFQltU79ILaVheQ7VzTUpWIr_-Zj3YisA";
     protected static String regidEsther = "";
 
 
@@ -211,7 +211,7 @@ public class MyActivity extends Activity implements
             data.put("my_regid", regid);
             data.put("my_regid_owner", PROPERTY_REG_ID_ESTHER);
 
-            Helper.transmit(data, new JSONArray().put(regidPhilipp));
+            Helper.transmit(data, new JSONArray().put((regid.equals(regidPhilipp) ? regidEsther : regidPhilipp)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -267,8 +267,8 @@ public class MyActivity extends Activity implements
             data.put("my_loc_ber", currentLocation.getBearing());
             data.put("my_step", 1);
 
-            //Helper.transmit(data, new JSONArray().put((regid.equals(regidPhilipp) ? regidEsther : regidPhilipp)));
-            Helper.transmit(data, new JSONArray().put(regid));
+            Helper.transmit(data, new JSONArray().put((regid.equals(regidPhilipp) ? regidEsther : regidPhilipp)));
+            //Helper.transmit(data, new JSONArray().put(regid));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (Helper.BaerliTransmitException e) {

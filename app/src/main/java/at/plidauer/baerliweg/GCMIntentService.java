@@ -151,7 +151,7 @@ public class GCMIntentService extends IntentService implements
             data.put("my_step", 2);
 
             //Helper.transmit(data, new JSONArray().put((MyActivity.regid.equals(MyActivity.regidPhilipp) ? MyActivity.regidEsther : MyActivity.regidPhilipp)));
-            Helper.transmit(data, new JSONArray().put(MyActivity.regid));
+            Helper.transmit(data, new JSONArray().put((MyActivity.regid.equals(MyActivity.regidPhilipp) ? MyActivity.regidEsther : MyActivity.regidPhilipp)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
