@@ -137,10 +137,10 @@ public class Helper {
         if (registrationId.isEmpty())
             return "";
 
-        /*int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
         int currentAppVersion = getAppVersion(context);
         if (registeredVersion != currentAppVersion)
-            return "";*/
+            return "";
         return registrationId;
     }
 

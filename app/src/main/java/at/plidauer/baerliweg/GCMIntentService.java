@@ -86,8 +86,22 @@ public class GCMIntentService extends IntentService implements
 
                 if (myStep == 1) {
                     sendResponse(myLocation);
+
                 } else if (myStep == 2) {
-                    Log.i(MyActivity.TAG, "Received response!");
+                    Location yourLocation = new Location("reverseGeocoded");
+
+                    yourLocation.setLatitude(Double.parseDouble(extras.getString("your_loc_lat")));
+                    yourLocation.setLongitude(Double.parseDouble(extras.getString("your_loc_lon")));
+                    yourLocation.setAccuracy(Float.parseFloat(extras.getString("your_loc_acc")));
+                    yourLocation.setAltitude(Double.parseDouble(extras.getString("your_loc_alt")));
+                    yourLocation.setTime(Long.parseLong(extras.getString("your_loc_tim")));
+                    yourLocation.setBearing(Float.parseFloat(extras.getString("your_loc_ber")));
+
+                    Intent i = new Intent("at.plidauer.baerliweg.FINISHED");
+                    i.putExtra("location1", myLocation);
+                    i.putExtra("location2", yourLocation);
+                    sendBroadcast(i);
+
                 } else {
                     throw new RuntimeException("Step is not 1 or 2!");
                 }
@@ -106,6 +120,17 @@ public class GCMIntentService extends IntentService implements
     }
 
     private void sendResponse(final Location myLocation) {
+        for (int i = 0; !locationClient.isConnected(); i++) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                break;
+            }
+
+            if (i == 10)
+                throw new RuntimeException("Location client not responding!");
+        }
+
         final Location currentLocation = locationClient.getLastLocation();
 
         try {

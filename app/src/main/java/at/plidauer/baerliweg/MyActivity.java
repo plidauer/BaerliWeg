@@ -2,7 +2,11 @@ package at.plidauer.baerliweg;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -61,6 +65,8 @@ public class MyActivity extends Activity implements
     GoogleCloudMessaging gcm;
     SharedPreferences prefs;
     LocationClient locationClient;
+    BroadcastReceiver receiver = null;
+    float dist;
 
     final int STATE_INIT = 0;
     final int STATE_WAIT = 1;
@@ -69,13 +75,14 @@ public class MyActivity extends Activity implements
     int state = STATE_INIT;
 
     protected static String regid;
-    protected static String regidPhilipp = "APA91bHUV5wWKAedXWEdyHb4pgvdfADJ-ERHocdGUA3IrQWyGihV-uU1huriuYHFtPd5lQGSyUOWD6SnwxCNRqzQTy4lMsM7hwpj8WY537QQdJxUvmTfGyi9uaq61MPcnY2lTbSfbROdNJZRQunF1iHPF31UOBe15w";
+    protected static String regidPhilipp = "APA91bFlmb2KmXZW9XfU1b2vEu6vUxWcuxfWCZeJtt0aygfZJ_75s7cC3nXcUddd65ROpDT73MmcV_l14siFC-dFmN4c9vwdRZWnB05r5rSFI0ZWhu9j_O2846Zt0A40IqizOrzywTTkocElj0V86QyNdhMolAZhDQ";
     protected static String regidEsther = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_my);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -100,8 +107,51 @@ public class MyActivity extends Activity implements
             }
         });
 
+
         context = getApplicationContext();
         locationClient = new LocationClient(this, this, this);
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Location location1, location2;
+                location1 = intent.getExtras().getParcelable("location1");
+                location2 = intent.getExtras().getParcelable("location2");
+                float dist = location1.distanceTo(location2);
+                Log.i(TAG, "Distance between two phones: " + dist);
+
+                MyActivity.this.dist = dist;
+
+                if (dist < 100)
+                    distance.setText("");
+                else if (dist < 1000)
+                    distance.setText("" + Math.round(dist) + " m");
+                else
+                    distance.setText("" + Math.round(dist/1000) + " km");
+
+                if (dist < 100)
+                    message.setText("ach Esther, er ist doch eh bei dir :)");
+                else if (dist < 300)
+                    message.setText("gleich um die Ecke :)");
+                else if (dist < 1000)
+                    message.setText("am Weg zu dir!");
+                else if (dist < 5000)
+                    message.setText("er mag auf einen Eiskaffee gehen, wetten?");
+                else if (dist < 20000)
+                    message.setText("nimmst ihm was gutes mit? :)");
+                else if (dist < 100000)
+                    message.setText("");
+                else if (dist < 300000)
+                    message.setText("in Wien und Oberösterreich :)");
+                else if (dist < 1000000)
+                    message.setText("ganz schön weit :-/");
+                else
+                    message.setText("Weltmeere dazwischen :'( schreib ihm, dass es dir gut geht");
+
+                setState(STATE_ANSWER);
+            }
+        };
+        this.registerReceiver(receiver, new IntentFilter("at.plidauer.baerliweg.FINISHED"));
 
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);
@@ -129,6 +179,27 @@ public class MyActivity extends Activity implements
             Log.i("BaerliWeg", "No valid Google Play Services APK found!");
             finish();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt("state", state);
+        savedInstanceState.putFloat("dist", dist);
+        savedInstanceState.putString("dist_txt", distance.getText().toString());
+        savedInstanceState.putString("msg_txt", message.getText().toString());
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        state = savedInstanceState.getInt("state");
+        dist = savedInstanceState.getFloat("dist");
+        distance.setText(savedInstanceState.getString("dist_txt"));
+        message.setText(savedInstanceState.getString("msg_txt"));
+
+        setState(state);
+
     }
 
     private void sendRegidToPhilipp() {
@@ -161,21 +232,18 @@ public class MyActivity extends Activity implements
     @Override
     protected void onDestroy() {
         unregisterGCMInBackground();
+        unregisterReceiver(receiver);
         super.onDestroy();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.my, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -323,18 +391,4 @@ public class MyActivity extends Activity implements
         this.state = state;
     }
 
-    public class MessageHandler extends Handler {
-        @Override
-        public void handleMessage(Message message) {
-            int state = message.arg1;
-            switch (state) {
-                case HIDE:
-                    progressBar.setVisibility(View.INVISIBLE);
-                    break;
-                case SHOW:
-                    progressBar.setVisibility(View.VISIBLE);
-                    break;
-            }
-        }
-    }
 }

@@ -1,4 +1,5 @@
 <FrameLayout
+    android:id="@+id/layout_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -8,7 +9,7 @@
     >
 
     <RelativeLayout
-
+        android:id="@+id/layout_foreground"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 
@@ -22,91 +23,92 @@
 
 
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/question"
-            android:orientation="vertical"
-            android:layout_margin="15dp"
+        <FrameLayout
+            android:id="@+id/layout_foreground_frame"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_marginBottom="10dp"
-                android:gravity="center"
-                android:textSize="25dp"
+            <LinearLayout
+                android:id="@+id/question"
+                android:orientation="vertical"
+                android:layout_margin="15dp"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hello_esther"/>
+                android:layout_height="wrap_content">
 
-            <Button
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:textSize="25dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hello_esther"/>
+
+                <Button
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/where_is_baerli"
+                    android:id="@+id/button" />
+
+            </LinearLayout>
+
+            <ProgressBar
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/where_is_baerli"
-                android:id="@+id/button" />
-
-        </LinearLayout>
-
-        <ProgressBar
-            android:layout_gravity="center"
-            android:id="@+id/progressBar"
-            android:visibility="invisible"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:visibility="invisible"
-            android:id="@+id/answer"
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/distance"
-                android:textColor="#555"
-                android:fontFamily="sans-serif-condensed"
-                android:textStyle="bold"
-                android:textSize="60dp"
-                android:layout_gravity="center"
-                android:text="10 km"
+                android:id="@+id/progressBar"
+                android:visibility="invisible"
+                style="@android:style/Widget.Holo.Light.ProgressBar.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/message"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:fontFamily="sans-serif-condensed"
-                android:text="Das ist ziemlich weit...\nschreib ihm, dass es dir gut geht :'("
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:visibility="invisible"
+                android:id="@+id/answer"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/again"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:text="@string/nochmal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/distance"
+                    android:textColor="#555"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textStyle="bold"
+                    android:textSize="60dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/message"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-condensed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/again"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:text="@string/nochmal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
 
 
-    </FrameLayout>
+        </FrameLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-
+        android:id="@+id/layout_bottom"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
         <ImageView
+            android:id="@+id/grass_1"
             android:layout_alignParentBottom="true"
             android:scaleType="fitXY"
             android:baselineAlignBottom="true"
@@ -124,6 +126,7 @@
             android:layout_height="120dp" />
 
         <ImageView
+            android:id="@+id/grass_2"
             android:layout_alignParentBottom="true"
             android:scaleType="fitXY"
             android:baselineAlignBottom="true"
